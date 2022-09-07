@@ -87,25 +87,6 @@ fun ageDescription(age: Int): String {
     return ("некорректно введены данные")
 }
 
-
-/**{
-    if (age in 1..4 || age in 21..200) {
-        if (age.toString()[age.toString().length].digitToInt() == 1) {
-            return ("$age год")
-        }
-        if (age.toString()[age.toString().length].digitToInt() in 2..4) {
-            return ("$age года")
-        }
-        if (age.toString()[age.toString().length].digitToInt() in 5..9 || age.toString()[age.toString().length].digitToInt() == 0) {
-            return ("$age лет")
-        } else ("некорректно введены данные")
-    }
-    return if (age in 5..20) {
-        ("$age лет")
-    } else ("некорректно введены данные")
-}
-**/
-
 /**
  * Простая (2 балла)
  *

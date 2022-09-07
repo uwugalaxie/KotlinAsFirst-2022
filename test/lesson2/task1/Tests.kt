@@ -41,7 +41,7 @@ class Tests {
         assertEquals("111 лет", ageDescription(111))
         assertEquals("199 лет", ageDescription(199))
         assertEquals("некорректно введены данные", ageDescription(543))
-        assertEquals("некорректно введены данные", ageDescription(-120))
+        assertEquals("некорректно введены данные", ageDescription(-12))
     }
 
     @Test
