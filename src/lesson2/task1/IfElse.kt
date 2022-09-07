@@ -68,7 +68,43 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if (age in 5..20 || age in 105..120) {
+        return ("$age лет")
+    }
+    else if (age in 1..4 || age in 21..104 || age in 121..199) {
+        val lastnum = age.toString()[age.toString().lastIndex].digitToInt()
+        if (lastnum == 1) {
+            return ("$age год")
+        }
+        else if (lastnum in 2..4) {
+            return ("$age года")
+        }
+        else if (lastnum in 5..9 || lastnum == 0) {
+            return ("$age лет")
+        }
+    }
+    return ("некорректно введены данные")
+}
+
+
+/**{
+    if (age in 1..4 || age in 21..200) {
+        if (age.toString()[age.toString().length].digitToInt() == 1) {
+            return ("$age год")
+        }
+        if (age.toString()[age.toString().length].digitToInt() in 2..4) {
+            return ("$age года")
+        }
+        if (age.toString()[age.toString().length].digitToInt() in 5..9 || age.toString()[age.toString().length].digitToInt() == 0) {
+            return ("$age лет")
+        } else ("некорректно введены данные")
+    }
+    return if (age in 5..20) {
+        ("$age лет")
+    } else ("некорректно введены данные")
+}
+**/
 
 /**
  * Простая (2 балла)
