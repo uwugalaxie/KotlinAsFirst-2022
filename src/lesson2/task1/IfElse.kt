@@ -69,22 +69,18 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age in 5..20 || age in 105..120) {
-        return ("$age лет")
-    }
+    return if (age in 5..20 || age in 105..120) ("$age лет")
     else if (age in 1..4 || age in 21..104 || age in 121..199) {
         val lastnum = age.toString()[age.toString().lastIndex].digitToInt()
         if (lastnum == 1) {
-            return ("$age год")
+            ("$age год")
         }
         else if (lastnum in 2..4) {
-            return ("$age года")
+            ("$age года")
         }
-        else if (lastnum in 5..9 || lastnum == 0) {
-            return ("$age лет")
-        }
+        else ("$age лет")
     }
-    return ("некорректно введены данные")
+    else ("некорректно введены данные")
 }
 
 /**
@@ -98,7 +94,14 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val halfS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    return if (t1 * v1 >= halfS) {
+        (halfS / v1)
+    } else if (t1 * v1 + t2 * v2 >= halfS) {
+        ((halfS - t1 * v1) / v2 + t1)
+    } else ((halfS - (t1 * v1 + t2 * v2)) / v3 + t1 + t2)
+}
 
 /**
  * Простая (2 балла)
@@ -113,7 +116,19 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    if (kingX == rookX1 || kingY == rookY1) {
+        return if (kingY != rookY2 && kingX != rookX2) {
+            1
+        } else 3
+    }
+    else if (kingX == rookX2 || kingY == rookY2) {
+        return if (kingY != rookY1 && kingX != rookX1) {
+            2
+        } else 3
+    }
+    return 0
+}
 
 /**
  * Простая (2 балла)
@@ -129,7 +144,24 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    if (kingX == rookX || kingY == rookY) {
+        for (i in 1..8) { //Bishop 9000 : SEARCH AND DESTROY
+            if (bishopX + i == kingX && bishopY + i == kingY || bishopX - i == kingX && bishopY - i == kingY || bishopX + i == kingX && bishopY - i == kingY || bishopX - i == kingX && bishopY + i == kingY) {
+                return 3
+            }
+        }
+        return 1
+    }
+    else {
+        for (i in 1..8) {
+            if (bishopX + i == kingX && bishopY + i == kingY || bishopX - i == kingX && bishopY - i == kingY || bishopX + i == kingX && bishopY - i == kingY || bishopX - i == kingX && bishopY + i == kingY) {
+                return 2
+            }
+        }
+    }
+    return 0
+}
 
 /**
  * Простая (2 балла)
@@ -139,7 +171,26 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if (a + b > c && b + c > a && a + c > b) {
+        if (a >= b && a >= c) {
+            return if (a * a == b * b + c * c) 1 //Проверяем по теореме Пифагора
+            else if (a * a < b * b + c * c) 0
+            else 2
+        }
+        if (b >= a && b >= c) {
+            return if (b * b == a * a + c * c) 1
+            else if (b * b < a * a + c * c) 0
+            else 2
+        }
+        if (c >= a && c >= b) {
+            return if (c * c == a * a + b * b) 1
+            else if (c * c < a * a + b * b) 0
+            else 2
+        }
+    }
+    return -1
+}
 
 /**
  * Средняя (3 балла)
@@ -149,4 +200,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return if (c in a..b && d in a..b) {
+        (d - c)
+    }
+    else if (a in c..d && b in c..d) {
+        (b - a)
+    }
+    else if (c in a..b) {
+        (b - c)
+    }
+    else if (d in a..b) {
+        (d - a)
+    }
+    else -1
+}
