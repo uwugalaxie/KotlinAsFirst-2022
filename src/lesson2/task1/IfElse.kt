@@ -68,20 +68,17 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    return if (age in 5..20 || age in 105..120) ("$age лет")
+fun ageDescription(age: Int): String =
+    if (age in 5..20 || age in 105..120) ("$age лет")
     else if (age in 1..4 || age in 21..104 || age in 121..199) {
         val lastnum = age.toString()[age.toString().lastIndex].digitToInt()
         if (lastnum == 1) {
             ("$age год")
-        }
-        else if (lastnum in 2..4) {
+        } else if (lastnum in 2..4) {
             ("$age года")
-        }
-        else ("$age лет")
-    }
-    else ("некорректно введены данные")
-}
+        } else ("$age лет")
+    } else ("некорректно введены данные")
+
 
 /**
  * Простая (2 балла)
