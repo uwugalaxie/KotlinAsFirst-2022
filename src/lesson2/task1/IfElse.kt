@@ -91,10 +91,10 @@ fun timeForHalfWay(
 ): Double {
     val halfS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     return if (t1 * v1 >= halfS) {
-        (halfS / v1)
+        halfS / v1
     } else if (t1 * v1 + t2 * v2 >= halfS) {
-        ((halfS - t1 * v1) / v2 + t1)
-    } else ((halfS - (t1 * v1 + t2 * v2)) / v3 + t1 + t2)
+        (halfS - t1 * v1) / v2 + t1
+    } else (halfS - (t1 * v1 + t2 * v2)) / v3 + t1 + t2
 }
 
 /**
@@ -111,17 +111,14 @@ fun whichRookThreatens(
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
 ): Int {
-    if (kingX == rookX1 || kingY == rookY1) {
-        return if (kingY != rookY2 && kingX != rookX2) {
-            1
-        } else 3
+    val threat1 = (kingX == rookX1) || (kingY == rookY1)
+    val threat2 = (kingX == rookX2) || (kingY == rookY2)
+    return when {
+        threat1 && threat2 -> 3
+        threat1 -> 1
+        threat2 -> 2
+        else -> 0
     }
-    else if (kingX == rookX2 || kingY == rookY2) {
-        return if (kingY != rookY1 && kingX != rookX1) {
-            2
-        } else 3
-    }
-    return 0
 }
 
 /**
@@ -194,18 +191,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return if (c in a..b && d in a..b) {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+    if (c in a..b && d in a..b) {
         (d - c)
-    }
-    else if (a in c..d && b in c..d) {
+    } else if (a in c..d && b in c..d) {
         (b - a)
-    }
-    else if (c in a..b) {
+    } else if (c in a..b) {
         (b - c)
-    }
-    else if (d in a..b) {
+    } else if (d in a..b) {
         (d - a)
-    }
-    else -1
-}
+    } else -1
