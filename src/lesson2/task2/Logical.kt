@@ -83,5 +83,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val minw = min(r, s)
     val maxb = maxOf(a, b, c)
     val minb = minOf(a, b, c)
-    return ((a + b + c - minb - maxb) <= maxw && (minb <= minw))
+    return (a + b + c - minb - maxb) <= maxw && (minb <= minw)
 }
