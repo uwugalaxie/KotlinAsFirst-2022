@@ -5,6 +5,7 @@ package lesson2.task1
 import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
+import kotlin.math.min
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -164,17 +165,17 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b > c && b + c > a && a + c > b) {
-        if (a >= b && a >= c) {
+        if (maxOf(a, b, c) == a) {
             return if (a * a == b * b + c * c) 1 //Проверяем по теореме Пифагора
             else if (a * a < b * b + c * c) 0
             else 2
         }
-        if (b >= a && b >= c) {
+        if (maxOf(a, b, c) == b) {
             return if (b * b == a * a + c * c) 1
             else if (b * b < a * a + c * c) 0
             else 2
         }
-        if (c >= a && c >= b) {
+        if (maxOf(a, b, c) == c) {
             return if (c * c == a * a + b * b) 1
             else if (c * c < a * a + b * b) 0
             else 2
