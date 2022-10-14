@@ -121,9 +121,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var sumsqr = 0.0
-    v.forEach { sumsqr += it * it }
-    return sqrt(sumsqr)
+    val sqr = v.map { it * it }
+    return sqrt(sqr.sum())
 }
 
 /**
@@ -131,14 +130,12 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    return if (list.isEmpty()) 0.0
+fun mean(list: List<Double>): Double =
+    if (list.isEmpty()) 0.0
     else {
-        var sumelem = 0.0
-        list.forEach { sumelem += it }
-        sumelem / list.size
+        list.sum() / list.size
     }
-}
+
 
 /**
  * Средняя (3 балла)
