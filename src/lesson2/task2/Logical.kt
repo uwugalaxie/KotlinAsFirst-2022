@@ -6,6 +6,7 @@ import lesson1.task1.sqr
 import kotlin.math.sqrt
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.abs
 
 /**
  * Пример
@@ -34,10 +35,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     if (x1 == x2 || y1 == y2) {
         return true
     }
-    for (i in 1..8) { //Buy Bishop 9000 and get 50% off Queen 10000
-        if (x1 + i == x2 && y1 + i == y2 || x1 - i == x2 && y1 - i == y2 || x1 + i == x2 && y1 - i == y2 || x1 - i == x2 && y1 + i == y2) {
-            return true
-        }
+    if (abs(x1 - x2) == abs(y1 - y2) || x1 - x2 == y2 - y1) {
+        return true
     }
     return false
 }

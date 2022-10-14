@@ -6,6 +6,7 @@ import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
 import kotlin.math.min
+import kotlin.math.abs
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -138,18 +139,14 @@ fun rookOrBishopThreatens(
     bishopX: Int, bishopY: Int
 ): Int {
     if (kingX == rookX || kingY == rookY) {
-        for (i in 1..8) { //Bishop 9000 : SEARCH AND DESTROY
-            if (bishopX + i == kingX && bishopY + i == kingY || bishopX - i == kingX && bishopY - i == kingY || bishopX + i == kingX && bishopY - i == kingY || bishopX - i == kingX && bishopY + i == kingY) {
-                return 3
-            }
+        if (abs(bishopX - kingX) == abs(bishopY - kingY) || bishopX - kingX == kingY - bishopY) {
+            return 3
         }
         return 1
     }
     else {
-        for (i in 1..8) {
-            if (bishopX + i == kingX && bishopY + i == kingY || bishopX - i == kingX && bishopY - i == kingY || bishopX + i == kingX && bishopY - i == kingY || bishopX - i == kingX && bishopY + i == kingY) {
-                return 2
-            }
+        if (abs(bishopX - kingX) == abs(bishopY - kingY) || bishopX - kingX == kingY - bishopY) {
+            return 2
         }
     }
     return 0
