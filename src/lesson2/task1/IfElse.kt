@@ -5,7 +5,6 @@ package lesson2.task1
 import lesson1.task1.discriminant
 import kotlin.math.max
 import kotlin.math.sqrt
-import kotlin.math.min
 import kotlin.math.abs
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
@@ -138,19 +137,30 @@ fun rookOrBishopThreatens(
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
 ): Int {
+    return when {
+        (kingX == rookX || kingY == rookY) && (abs(bishopX - kingX) == abs(bishopY - kingY)) -> 3
+        kingX == rookX || kingY == rookY -> 1
+        abs(bishopX - kingX) == abs(bishopY - kingY) -> 2
+        else -> 0
+    }
+}
+
+/**
+{
     if (kingX == rookX || kingY == rookY) {
-        if (abs(bishopX - kingX) == abs(bishopY - kingY) || bishopX - kingX == kingY - bishopY) {
+        if (abs(bishopX - kingX) == abs(bishopY - kingY)) {
             return 3
         }
         return 1
     }
     else {
-        if (abs(bishopX - kingX) == abs(bishopY - kingY) || bishopX - kingX == kingY - bishopY) {
+        if (abs(bishopX - kingX) == abs(bishopY - kingY)) {
             return 2
         }
     }
     return 0
 }
+ */
 
 /**
  * Простая (2 балла)
@@ -161,6 +171,21 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val minSide = minOf(a, b, c)
+    val maxSide = maxOf(a, b, c)
+    val midSide = a + b + c - minSide - maxSide
+    if (a + b > c && b + c > a && a + c > b) {
+        return when {
+            maxSide * maxSide == minSide * minSide + midSide * midSide -> 1
+            maxSide * maxSide < minSide * minSide + midSide * midSide -> 0
+            else -> 2
+        }
+    }
+    return -1
+}
+
+/**
+{
     if (a + b > c && b + c > a && a + c > b) {
         if (maxOf(a, b, c) == a) {
             return if (a * a == b * b + c * c) 1 //Проверяем по теореме Пифагора
@@ -180,6 +205,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     }
     return -1
 }
+*/
 
 /**
  * Средняя (3 балла)

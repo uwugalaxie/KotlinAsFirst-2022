@@ -136,7 +136,6 @@ fun mean(list: List<Double>): Double =
         list.sum() / list.size
     }
 
-
 /**
  * Средняя (3 балла)
  *
