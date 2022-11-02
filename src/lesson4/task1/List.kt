@@ -293,4 +293,73 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val l1 = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val l2 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемьнадцать", "девятнадцать")
+    val l3 = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val l4 = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val l5 = listOf("одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "пять тысяч", "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
+    val nStr = n.toString()
+    var resultStr = ""
+    var i = 1
+    while(i <= nStr.length) {
+        when (nStr.length - i) {
+            6 -> if(nStr[i+1] == '0') {
+                resultStr += l4[nStr[i-1].digitToInt()]
+                i += 1
+            }
+            else {
+                resultStr += l4[nStr[i-1].digitToInt()]
+            }
+            5 -> if(nStr[i] == '1') {
+                if(nStr[i+1] == '0') {
+                    resultStr += l3[0] // десять
+                    i += 1
+                }
+                else {
+                    resultStr += l2[nStr[i].digitToInt()]
+                    i += 1 // Почему цикл for не позволял мне инкрементировать i? Пришлось делать while и отдельную переменную
+                }
+            }
+            else {
+                if(nStr[i+1] == '0') {
+                    resultStr += l3[nStr[i-1].digitToInt()]
+                    i += 1
+                }
+                else {
+                    resultStr += l3[nStr[i-1].digitToInt()]
+                }
+            }
+            4 -> if(nStr[i+1] == '0') {
+                resultStr += l5[nStr[i-1].digitToInt()]
+                i += 1
+            }
+            else {
+                resultStr += l5[nStr[i-1].digitToInt()]
+            }
+            3 -> if(nStr[i+1] == '0') {
+                resultStr += l4[nStr[i-1].digitToInt()]
+                i += 1
+            }
+            else {
+                resultStr += l4[nStr[i-1].digitToInt()]
+            }
+            2 -> if(nStr[i] == '1') {
+                if(nStr[i+1] == '0') {
+                    resultStr += l3[0] // десять
+                    i += 1
+                }
+                else {
+                    resultStr += l2[nStr[i-1].digitToInt()]
+                    i += 1
+                }
+            }
+            1 -> resultStr += l1[nStr[i-1].digitToInt()]
+        }
+    i += 1
+    }
+    return resultStr
+}
+
+// Я запутался :(
+// Потом доделаю
