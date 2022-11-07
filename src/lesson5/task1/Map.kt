@@ -108,7 +108,12 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for ((n, t) in a) {
+        if (t != b[n]) return false
+    }
+    return true
+}
 
 /**
  * Простая (2 балла)
@@ -125,7 +130,17 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    TODO()
+    val blacklist = mutableListOf<String>()
+
+    for ((n, t) in b) {
+        if (t == a[n]) {
+            blacklist.add(n)
+        }
+    }
+
+    for (n in blacklist) {
+        a.remove(n)
+    }
 }
 
 /**
@@ -135,7 +150,24 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
+    val finalList = mutableListOf<String>()
+    val copycheck = mutableSetOf<String>()
+    var n = 0
+
+    for (name in a) {
+        copycheck.add(name)
+    }
+
+    for (namefin in copycheck) {
+        if (namefin == b[n]) {
+            finalList.add(namefin)
+        }
+        n += 1
+    }
+
+    return finalList
+}
 
 /**
  * Средняя (3 балла)
@@ -184,7 +216,6 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
-
 /**
  * Средняя (3 балла)
  *
