@@ -96,7 +96,20 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val finalMap = mutableMapOf<Int, List<String>>()
+
+    for ((name, num) in grades) {
+        if (finalMap[num] == null) {
+            finalMap[num] = mutableListOf(name)
+        }
+        else {
+            finalMap[num] = finalMap[num]!! + name
+        }
+    }
+
+    return finalMap
+}
 
 /**
  * Простая (2 балла)
@@ -152,18 +165,16 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     val finalList = mutableListOf<String>()
-    val copycheck = mutableSetOf<String>()
-    var n = 0
+    val copycheckA = mutableSetOf<String>()
 
     for (name in a) {
-        copycheck.add(name)
+        copycheckA.add(name)
     }
 
-    for (namefin in copycheck) {
-        if (namefin == b[n]) {
+    for (namefin in copycheckA) {
+        if (b.contains(namefin)) {
             finalList.add(namefin)
         }
-        n += 1
     }
 
     return finalList
@@ -308,7 +319,23 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    var mInd = 0
+    var n = 1
+
+    if (list.isNotEmpty()) {
+        for (m in list.subList(0, list.size - 1)) {
+            for (p in n until list.size) {
+                if (m + list[p] == number) {
+                    return Pair(minOf(mInd, p), maxOf(mInd, p))
+                }
+            }
+            mInd += 1
+        }
+    }
+
+    return Pair(-1, -1)
+}
 
 /**
  * Очень сложная (8 баллов)
