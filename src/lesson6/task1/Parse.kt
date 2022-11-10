@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson6.task1
+import lesson2.task2.daysInMonth
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -74,7 +75,38 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val p = str.split(" ")
+    var month = 0
+
+    if (p.size != 3) return ""
+
+    try {
+        p[0].toInt()
+        p[2].toInt()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+    month = when (p[1]) {
+        "января" -> 1
+        "февраля" -> 2
+        "марта" -> 3
+        "апреля" -> 4
+        "мая" -> 5
+        "июня" -> 6
+        "июля" -> 7
+        "августа" -> 8
+        "сентября" -> 9
+        "октября" -> 10
+        "ноября" -> 11
+        "декабря" -> 12
+        else -> return ""
+    }
+
+    return if (p[0].toInt() >= daysInMonth(month, p[2].toInt())) ""
+    else String.format("%02d.%02d.%04d", p[0].toInt(), month, p[2].toInt())
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +118,39 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val p = digital.split(".")
+    var month = ""
+
+    if (p.size != 3) return ""
+
+    try {
+        p[0].toInt()
+        p[1].toInt()
+        p[2].toInt()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+    month = when (p[1].toInt()) {
+        1 -> "января"
+        2 -> "февраля"
+        3 -> "марта"
+        4 -> "апреля"
+        5 -> "мая"
+        6 -> "июня"
+        7 -> "июля"
+        8 -> "августа"
+        9 -> "сентября"
+        10 -> "октября"
+        11 -> "ноября"
+        12 -> "декабря"
+        else -> return ""
+    }
+
+    return if (p[0].toInt() >= daysInMonth(p[1].toInt(), p[2].toInt())) ""
+    else String.format("%d %s %d", p[0].toInt(), month, p[2].toInt())
+}
 
 /**
  * Средняя (4 балла)
