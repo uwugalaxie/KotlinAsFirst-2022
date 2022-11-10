@@ -167,7 +167,6 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String = TODO()
-
 /**
  * Средняя (5 баллов)
  *

@@ -308,10 +308,8 @@ fun russian(n: Int): String {
             6 -> resultStr += l4[nStr[i].digitToInt() - 1]
 
             5 -> {
-                if (nStr[i] == '0') {
-                    i += 0
-                    resultStr += "тысяч "
-                } else {
+                if (nStr[i] == '0') resultStr += "тысяч "
+                else {
                     if (nStr[i] == '1') {
                         if (nStr[i + 1] == '0') resultStr += l3[0]
                         else resultStr += l2[nStr[i + 1].digitToInt() - 1]
@@ -322,15 +320,15 @@ fun russian(n: Int): String {
             }
 
             4 ->
-                if (nStr[i] == '0') i += 0
+                if (nStr[i] == '0') {}
                 else resultStr += l5[nStr[i].digitToInt() - 1]
 
             3 ->
-                if (nStr[i] == '0') i += 0
+                if (nStr[i] == '0') {}
                 else resultStr += l4[nStr[i].digitToInt() - 1]
 
             2 ->
-                if (nStr[i] == '0') i += 0
+                if (nStr[i] == '0') {}
                 else {
                     if (nStr[i] == '1') {
                         if (nStr[i + 1] == '0') resultStr += l3[0]
@@ -340,7 +338,7 @@ fun russian(n: Int): String {
                 }
 
             1 ->
-                if (nStr[i] == '0') i += 0
+                if (nStr[i] == '0') {}
                 else resultStr += l1[nStr[i].digitToInt() - 1]
         }
         i += 1
