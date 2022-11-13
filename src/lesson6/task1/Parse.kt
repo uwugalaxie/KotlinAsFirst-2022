@@ -104,8 +104,8 @@ fun dateStrToDigit(str: String): String {
         else -> return ""
     }
 
-    return if (p[0].toInt() >= daysInMonth(month, p[2].toInt())) ""
-    else String.format("%02d.%02d.%04d", p[0].toInt(), month, p[2].toInt())
+    return if (p[0].toInt() > daysInMonth(month, p[2].toInt())) ""
+    else String.format("%02d.%02d.%d", p[0].toInt(), month, p[2].toInt())
 }
 
 /**
@@ -148,7 +148,7 @@ fun dateDigitToStr(digital: String): String {
         else -> return ""
     }
 
-    return if (p[0].toInt() >= daysInMonth(p[1].toInt(), p[2].toInt())) ""
+    return if (p[0].toInt() > daysInMonth(p[1].toInt(), p[2].toInt())) ""
     else String.format("%d %s %d", p[0].toInt(), month, p[2].toInt())
 }
 
