@@ -357,7 +357,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     var load = capacity
 
     for ((m, p) in treasures) {
-        value.add(Pair(m, p.first / p.second))
+        value.add(Pair(m, capacity / p.second))
     }
     value.sortByDescending { it.second }
 
