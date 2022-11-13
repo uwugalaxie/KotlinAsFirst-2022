@@ -331,23 +331,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 }
 
 /**
-{
-    var mInd = 0
-
-    if (list.isNotEmpty()) {
-        for (m in list.indices) {
-            for (p in m + 1 until list.size) {
-                if (m + list[p] == number) return Pair(minOf(mInd, p), maxOf(mInd, p))
-            }
-            mInd += 1
-        }
-    }
-
-    return Pair(-1, -1)
-}
-*/
-
-/**
  * Очень сложная (8 баллов)
  *
  * Входными данными является ассоциативный массив
@@ -368,4 +351,22 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val value = mutableListOf<Pair<String, Int>>()
+    val finalSet = mutableSetOf<String>()
+    var load = capacity
+
+    for ((m, p) in treasures) {
+        value.add(Pair(m, p.second / p.first))
+    }
+    value.sortByDescending { it.second }
+
+    for ((first) in value) {
+        if (treasures.getValue(first).first <= load) {
+            finalSet += first
+            load -= treasures.getValue(first).first
+        }
+    }
+
+    return finalSet
+}
