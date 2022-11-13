@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
-package lesson6.task1.task1
+package lesson4.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
