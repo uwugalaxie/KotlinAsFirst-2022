@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.kotlin.typeclass.kind
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -352,6 +354,75 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    if (treasures.isEmpty()) return emptySet()
+
+    val paper: Array<Array<Pair<Int, MutableSet<String>>>> =
+        Array(treasures.size) { Array(capacity + 1) { Pair(0, mutableSetOf()) } }
+    var n = 0
+
+    for ((name, pair) in treasures) {
+        val w = pair.first
+        val p = pair.second
+
+        for (m in 0..capacity) {
+
+            if (n == treasures.size) break
+
+            else if (w > m)
+                paper[n][m] =
+                    if (n >= 1) paper[n - 1][m]
+                    else Pair(0, mutableSetOf())
+
+            else if (n < 1)
+                paper[n][m] = Pair(p, mutableSetOf(name))
+
+            else if (paper[n - 1][m].first <= paper[n - 1][m - w].first + p) {
+                paper[n][m] = Pair(
+                    paper[n - 1][m - w].first + p,
+                    paper[n - 1][m - w].second.plus(name).toMutableSet()
+                )
+            }
+            else paper[n][m] = paper[n - 1][m]
+        }
+        n += 1
+    }
+
+    return paper[treasures.size - 1][capacity].second
+}
+
+
+/**
+{
+    val capacityList = mutableListOf<Int>()
+    val capacityList1 = mutableListOf<Int>()
+    for (n in 0..capacity) {
+        capacityList.add(0)
+    }
+
+    for (s in 1..treasures.size) {
+        for (n in 0..capacity) {
+            if (n >= treasures.values.toList()[s].first && ())
+        }
+    }
+}
+
+
+
+for (m in 1 until treasures.size) {
+for (n in 0..capacity) {
+if (n >= treasures.values.toList()[n].first + weight) {
+if (treasures.values.toList()[n].first <= m) {
+if (capacityList[n] <= treasures.values.toList()[n].second) {
+capacityList[n] = treasures.values.toList()[n].second
+}
+}
+}
+}
+}
+
+
+
+{
     val value = mutableListOf<Pair<String, Int>>()
     val finalSet = mutableSetOf<String>()
     var load = capacity
@@ -370,3 +441,4 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 
     return finalSet
 }
+ */
