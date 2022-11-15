@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.StringBuilder
 import kotlin.math.sqrt
 import kotlin.math.pow
 
@@ -146,10 +147,9 @@ fun mean(list: List<Double>): Double =
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val mid = list.sum() / list.size
+    val mid = mean(list)
     for (i in 0 until list.size) {
-        val element = list[i]
-        list[i] = element - mid
+        list[i] -= mid
     }
     return list
 }
@@ -178,17 +178,15 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Значение пустого многочлена равно 0 при любом x.
  */
 fun polynom(p: List<Int>, x: Int): Int {
-    var c = 0
     var x1 = x
-    if (p.isEmpty()) {
-        return 0
-    }
-    c += p[0]
-    for (i in 1 until p.size) {
-        c += p[i] * x1
+    val t = p.toMutableList()
+
+    for (i in 1 until t.size) {
+        t[i] = t[i] * x1
         x1 *= x
     }
-    return c
+
+    return t.sum()
 }
 
 /**
@@ -294,54 +292,99 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val l1 = listOf("один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
-    val l2 = listOf("одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ", "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать ")
-    val l3 = listOf("десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ", "семьдесят ", "восемьдесят ", "девяносто ")
-    val l4 = listOf("сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ")
-    val l5 = listOf("одна тысяча ", "две тысячи ", "три тысячи ", "четыре тысячи ", "пять тысяч ", "шесть тысяч ", "семь тысяч ", "восемь тысяч ", "девять тысяч ")
+    val l1 = listOf(
+        "один ",
+        "два ",
+        "три ",
+        "четыре ",
+        "пять ",
+        "шесть ",
+        "семь ",
+        "восемь ",
+        "девять ")
+    val l2 = listOf(
+        "одиннадцать ",
+        "двенадцать ",
+        "тринадцать ",
+        "четырнадцать ",
+        "пятнадцать ",
+        "шестнадцать ",
+        "семнадцать ",
+        "восемнадцать ",
+        "девятнадцать "
+    )
+    val l3 = listOf(
+        "десять ",
+        "двадцать ",
+        "тридцать ",
+        "сорок ",
+        "пятьдесят ",
+        "шестьдесят ",
+        "семьдесят ",
+        "восемьдесят ",
+        "девяносто "
+    )
+    val l4 = listOf(
+        "сто ",
+        "двести ",
+        "триста ",
+        "четыреста ",
+        "пятьсот ",
+        "шестьсот ",
+        "семьсот ",
+        "восемьсот ",
+        "девятьсот "
+    )
+    val l5 = listOf(
+        "одна тысяча ",
+        "две тысячи ",
+        "три тысячи ",
+        "четыре тысячи ",
+        "пять тысяч ",
+        "шесть тысяч ",
+        "семь тысяч ",
+        "восемь тысяч ",
+        "девять тысяч "
+    )
     val nStr = n.toString()
-    var resultStr = ""
+    val resultStr = StringBuilder()
     var i = 0
     while (i < nStr.length) {
         when (nStr.length - i) {
 
-            6 -> resultStr += l4[nStr[i].digitToInt() - 1]
+            6 -> resultStr.append(l4[nStr[i].digitToInt() - 1])
 
             5 -> {
-                if (nStr[i] == '0') {}
-                else {
+                if (nStr[i] != '0') {
                     if (nStr[i] == '1') {
-                        if (nStr[i + 1] == '0') resultStr += l3[0]
-                        else resultStr += l2[nStr[i + 1].digitToInt() - 1]
-                        resultStr += "тысяч "
+                        if (nStr[i + 1] == '0') resultStr.append(l3[0])
+                        else resultStr.append(l2[nStr[i + 1].digitToInt() - 1])
+                        resultStr.append("тысяч ")
                         i += 1
-                    } else resultStr += l3[nStr[i].digitToInt() - 1]
+                    } else resultStr.append(l3[nStr[i].digitToInt() - 1])
                 }
             }
 
             4 ->
-                if (nStr[i] == '0') resultStr += "тысяч "
-                else resultStr += l5[nStr[i].digitToInt() - 1]
+                if (nStr[i] != '0') resultStr.append(l5[nStr[i].digitToInt() - 1])
+                else resultStr.append("тысяч ")
 
             3 ->
-                if (nStr[i] == '0') {}
-                else resultStr += l4[nStr[i].digitToInt() - 1]
+                if (nStr[i] != '0') resultStr.append(l4[nStr[i].digitToInt() - 1])
 
             2 ->
-                if (nStr[i] == '0') {}
-                else {
+                if (nStr[i] != '0') {
                     if (nStr[i] == '1') {
-                        if (nStr[i + 1] == '0') resultStr += l3[0]
-                        else resultStr += l2[nStr[i + 1].digitToInt() - 1]
+                        if (nStr[i + 1] == '0') resultStr.append(l3[0])
+                        else resultStr.append(l2[nStr[i + 1].digitToInt() - 1])
                         i += 1
-                    } else resultStr += l3[nStr[i].digitToInt() - 1]
+                    } else resultStr.append(l3[nStr[i].digitToInt() - 1])
                 }
 
             1 ->
-                if (nStr[i] == '0') {}
-                else resultStr += l1[nStr[i].digitToInt() - 1]
+                if (nStr[i] != '0') resultStr.append(l1[nStr[i].digitToInt() - 1])
         }
         i += 1
     }
-    return resultStr.trim()
+    return resultStr.toString().trim()
 }

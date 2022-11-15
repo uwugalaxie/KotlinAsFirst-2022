@@ -2,7 +2,8 @@
 
 package lesson5.task1
 
-import ru.spbstu.kotlin.typeclass.kind
+import ru.spbstu.kotlin.typeclass.classes.Monoid.Companion.plus
+import ru.spbstu.wheels.asList
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -99,19 +100,24 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val finalMap = mutableMapOf<Int, List<String>>()
+    val finalMap = mutableMapOf<Int, MutableList<String>>()
 
-    for ((name, num) in grades) {
-        if (finalMap[num] == null) {
-            finalMap[num] = mutableListOf(name)
-        }
-        else {
-            finalMap[num] = finalMap[num]!! + name
-        }
-    }
+    for ((name, grade) in grades) finalMap[grade]?.add(name) ?: run { finalMap[grade] = mutableListOf(name) }
 
     return finalMap
 }
+
+//без использования safe операции
+/**
+val finalMap = mutableMapOf<Int, MutableList<String>>()
+
+for ((name, grade) in grades) {
+    if (finalMap[grade].isNullOrEmpty()) finalMap[grade] = mutableListOf(name)
+    else finalMap[grade]!!.add(name)
+}
+
+return finalMap
+*/
 
 /**
  * Простая (2 балла)
@@ -145,16 +151,10 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
-    val blacklist = mutableListOf<String>()
-
     for ((n, t) in b) {
         if (t == a[n]) {
-            blacklist.add(n)
+            a.remove(n)
         }
-    }
-
-    for (n in blacklist) {
-        a.remove(n)
     }
 }
 
@@ -166,20 +166,11 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val finalList = mutableListOf<String>()
-    val copycheckA = mutableSetOf<String>()
+    val finalList = mutableSetOf<String>()
 
-    for (name in a) {
-        copycheckA.add(name)
-    }
+    for (name in a) if (b.contains(name)) finalList.add(name)
 
-    for (namefin in copycheckA) {
-        if (b.contains(namefin)) {
-            finalList.add(namefin)
-        }
-    }
-
-    return finalList
+    return finalList.toList()
 }
 
 /**
@@ -353,7 +344,10 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+
+/**
+{
     if (treasures.isEmpty()) return emptySet()
 
     val paper: Array<Array<Pair<Int, MutableSet<String>>>> =
@@ -379,7 +373,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             else if (paper[n - 1][m].first <= paper[n - 1][m - w].first + p) {
                 paper[n][m] = Pair(
                     paper[n - 1][m - w].first + p,
-                    paper[n - 1][m - w].second.plus(name).toMutableSet()
+                    paper[n - 1][m - w].second.plus(name)
                 )
             }
             else paper[n][m] = paper[n - 1][m]
@@ -389,7 +383,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
 
     return paper[treasures.size - 1][capacity].second
 }
-
+*/
 
 /**
 {
