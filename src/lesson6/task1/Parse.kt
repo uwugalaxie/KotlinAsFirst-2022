@@ -243,14 +243,10 @@ fun mostExpensive(description: String): String {
     val pricelist = mutableListOf<Pair<String, Double>>()
 
     for (n in goods) {
-        try {
+        if (n.matches(Regex("""^\D.*\s\d+[\\.]?[\d+]*"""))) {
             val topair = n.split(" ")
             pricelist.add(Pair(topair[0], topair[1].toDouble()))
-        } catch (e: IndexOutOfBoundsException) {
-            return ""
-        } catch (e: NumberFormatException) {
-            return ""
-        }
+        } else return ""
     }
     pricelist.sortByDescending { it.second }
 

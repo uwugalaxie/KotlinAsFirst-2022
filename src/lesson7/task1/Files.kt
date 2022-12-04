@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.util.regex.Pattern
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -63,7 +64,12 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).printWriter()
+    for (line in File(inputName).readLines()) {
+        if (line.isEmpty()) writer.println("")
+        else if (line[0] != '_') writer.println(line)
+    }
+    writer.close()
 }
 
 /**
@@ -75,7 +81,12 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val finalMap = mutableMapOf<String, Int>()
+    for (line in substrings) finalMap[line] =
+        File(inputName).readLines().toString().lowercase().split(line.lowercase()).size - 1
+    return finalMap
+}
 
 
 /**
