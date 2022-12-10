@@ -103,7 +103,29 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val reader = File(inputName).reader()
+    val writer = File(outputName).bufferedWriter()
+    var first = reader.read()
+    var next = 0
+    val check = setOf('Ж', 'ж', 'Ш', 'ш', 'Ч', 'ч', 'Щ', 'щ')
+
+    while (first != -1) {
+        writer.write(first)
+        next = reader.read()
+        if (check.contains(first.toChar())) {
+            when (next.toChar()) {
+                'Ы' -> next = 'И'.code
+                'ы' -> next = 'и'.code
+                'Я' -> next = 'А'.code
+                'я' -> next = 'а'.code
+                'Ю' -> next = 'У'.code
+                'ю' -> next = 'у'.code
+            }
+        }
+        first = next
+    }
+    reader.close()
+    writer.close()
 }
 
 /**
@@ -460,6 +482,67 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+
+    writer.write(" $lhv | $rhv\n")
+    if (lhv < rhv) writer.write("-0   0\n--\n $lhv")
+    else {
+        val lhvstr = lhv.toString()
+        val n = lhv.toString().length
+        var currentline = 0
+        var lhvstr1 = ""
+
+        for (p in 0 until n) {
+            lhvstr1 += lhvstr[p]
+            if (currentline == 0) {
+                if (lhvstr1.toInt() / rhv > 1) {
+                    writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)))
+                    for (v in 0 until lhvstr.length - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length) writer.write(" ")
+                    writer.write("   " + (lhv / rhv) + "\n")
+                    for (v in 0..(lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length) writer.write("-")
+                    writer.newLine()
+                    currentline += 1
+                    lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+                }
+            }
+            else {
+                if (lhvstr1.toInt() % rhv == 0) {
+                    for (v in 0 until p) writer.write(" ")
+                    writer.write(lhvstr1 + "\n")
+                    for (v in 0 until p) writer.write(" ")
+                    writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)) + "\n")
+                    for (v in 0 until p) writer.write(" ")
+                    for (v in lhvstr1.indices) writer.write("-")
+                    writer.newLine()
+                    lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+                }
+
+                else if (lhvstr1.toInt() / rhv > 1) {
+                    for (v in 0 until p - 1) writer.write(" ")
+                    writer.write(lhvstr1 + "\n")
+                    for (v in 0 until p - 2) writer.write(" ")
+                    writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)) + "\n")
+                    for (v in 0 until p - 2) writer.write(" ")
+                    for (v in 0..lhvstr1.length) writer.write("-")
+                    writer.newLine()
+                    lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+                }
+
+                else {
+                    for (v in 0 until p - 1) writer.write(" ")
+                    writer.write(" ")
+                    writer.write(lhvstr1 + "\n")
+                    for (v in 0 until p) writer.write(" ")
+                    writer.write("-0\n")
+                    for (v in 0 until p) writer.write(" ")
+                    for (v in lhvstr1.indices) writer.write("-")
+                    writer.newLine()
+                }
+            }
+        }
+        for (v in 0..n - lhvstr1.length) writer.write(" ")
+        writer.write(lhvstr1)
+    }
+    writer.close()
 }
 
