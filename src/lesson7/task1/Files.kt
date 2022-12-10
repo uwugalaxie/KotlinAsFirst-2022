@@ -483,8 +483,14 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
+    var whitespace = 0
 
-    writer.write(" $lhv | $rhv\n")
+    if (lhv.toString().length - rhv.toString().length == 1) {
+        writer.write("$lhv | $rhv\n")
+        whitespace += 1
+    }
+    else writer.write(" $lhv | $rhv\n")
+
     if (lhv < rhv) writer.write("-0   0\n--\n $lhv")
     else {
         val lhvstr = lhv.toString()
@@ -497,7 +503,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             if (currentline == 0) {
                 if (lhvstr1.toInt() / rhv >= 1) {
                     writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)))
-                    for (v in 0 until lhvstr.length - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length) writer.write(" ")
+                    for (v in 0 until lhvstr.length - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length - whitespace) writer.write(" ")
                     writer.write("   " + (lhv / rhv) + "\n")
                     for (v in 0..(lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length) writer.write("-")
                     writer.newLine()
@@ -507,40 +513,40 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
             }
             else {
                 if (lhvstr1.toInt() % rhv == 0) {
-                    for (v in 0 until p) writer.write(" ")
+                    for (v in 0 until p - whitespace) writer.write(" ")
                     writer.write(lhvstr1 + "\n")
-                    for (v in 0 until p) writer.write(" ")
+                    for (v in 0 until p - whitespace) writer.write(" ")
                     writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)) + "\n")
-                    for (v in 0 until p) writer.write(" ")
+                    for (v in 0 until p - whitespace) writer.write(" ")
                     for (v in lhvstr1.indices) writer.write("-")
                     writer.newLine()
                     lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
                 }
 
                 else if (lhvstr1.toInt() / rhv >= 1) {
-                    for (v in 0 until p - 1) writer.write(" ")
+                    for (v in 0 until p - 1 - whitespace) writer.write(" ")
                     writer.write(lhvstr1 + "\n")
-                    for (v in 0 until p - 2) writer.write(" ")
+                    for (v in 0 until p - 2 - whitespace) writer.write(" ")
                     writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)) + "\n")
-                    for (v in 0 until p - 2) writer.write(" ")
+                    for (v in 0 until p - 2 - whitespace) writer.write(" ")
                     for (v in 0..lhvstr1.length) writer.write("-")
                     writer.newLine()
                     lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
                 }
 
                 else {
-                    for (v in 0 until p - 1) writer.write(" ")
+                    for (v in 0 until p - 1 - whitespace) writer.write(" ")
                     writer.write(" ")
                     writer.write(lhvstr1 + "\n")
-                    for (v in 0 until p) writer.write(" ")
+                    for (v in 0 until p - whitespace) writer.write(" ")
                     writer.write("-0\n")
-                    for (v in 0 until p) writer.write(" ")
+                    for (v in 0 until p - whitespace) writer.write(" ")
                     for (v in lhvstr1.indices) writer.write("-")
                     writer.newLine()
                 }
             }
         }
-        for (v in 0..n - lhvstr1.length) writer.write(" ")
+        for (v in 0..n - lhvstr1.length - whitespace) writer.write(" ")
         writer.write(lhvstr1)
     }
     writer.close()
