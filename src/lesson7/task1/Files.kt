@@ -495,7 +495,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         for (p in 0 until n) {
             lhvstr1 += lhvstr[p]
             if (currentline == 0) {
-                if (lhvstr1.toInt() / rhv > 1) {
+                if (lhvstr1.toInt() / rhv >= 1) {
                     writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)))
                     for (v in 0 until lhvstr.length - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)).toString().length) writer.write(" ")
                     writer.write("   " + (lhv / rhv) + "\n")
@@ -517,7 +517,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
                 }
 
-                else if (lhvstr1.toInt() / rhv > 1) {
+                else if (lhvstr1.toInt() / rhv >= 1) {
                     for (v in 0 until p - 1) writer.write(" ")
                     writer.write(lhvstr1 + "\n")
                     for (v in 0 until p - 2) writer.write(" ")
