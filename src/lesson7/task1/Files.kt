@@ -520,7 +520,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 writer.newLine()
                 lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
             } else if (lhvstr1.toInt() / rhv >= 1) {
-                for (v in 0 until p - 1 - whitespace) writer.write(" ")
+
+                if (p != 1) {
+                    for (v in 0 until p - 1 - whitespace) writer.write(" ")
+                }
+                else for (v in 0 until p - whitespace) writer.write(" ")
+
                 writer.write(lhvstr1 + "\n")
                 for (v in 0 until p - 2 - whitespace) writer.write(" ")
                 writer.write("-" + (lhvstr1.toInt() - (lhvstr1.toInt() % rhv)) + "\n")
