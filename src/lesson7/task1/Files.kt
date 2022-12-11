@@ -557,9 +557,14 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         writer.newLine()
 
-        if (strlist[n].second != "-0") {
-            if (strlist[n].second.length >= strlist[n].first.length) whitespace += 1
+        try {
+            if (strlist[n].second != "-0") {
+                if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) whitespace += 1
+            } else if (strlist[n].first.startsWith("0")) whitespace += 1
+        } catch (e: IndexOutOfBoundsException) {
+            break
         }
+
     }
 
     //последние строчки
