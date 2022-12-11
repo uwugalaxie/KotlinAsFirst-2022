@@ -514,7 +514,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     }
 
     //оформление первых трех строк
-    if (strlist[0].first.length < strlist[0].second.length) writer.write(" $lhv | $rhv")
+    if (strlist[0].first.length < strlist[0].second.length) {
+        writer.write(" $lhv | $rhv")
+        whitespace += 1
+    }
     else writer.write("$lhv | $rhv")
     writer.newLine()
 
@@ -526,34 +529,29 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     for (v in 0 until strlist[0].second.length) writer.write("-")
     writer.newLine()
 
-    whitespace += strlist[0].second.length - 1
-
     //оформление остальных строк
+    whitespace += strlist[0].second.length - 1 - lhvstr1.length
     for (n in 1 until strlist.size) {
         for (v in 0 until whitespace) writer.write(" ")
         writer.write(strlist[n].first)
         writer.newLine()
 
-        if (strlist[n].first.length < strlist[n].second.length) {
-            for (v in 0 until whitespace - 1) writer.write(" ")
-            writer.write(strlist[n].second)
-            writer.newLine()
+        for (v in 0 until whitespace - (strlist[n].second.length - strlist[n].first.length)) writer.write(" ")
+        writer.write(strlist[n].second)
+        writer.newLine()
 
-            for (v in 0 until whitespace - 1) writer.write(" ")
+        if (strlist[n].second.length > strlist[n].first.length) {
+            for (v in 0 until whitespace - (strlist[n].second.length - strlist[n].first.length)) writer.write(" ")
             for (v in 0 until strlist[n].second.length) writer.write("-")
-            writer.newLine()
         }
         else {
             for (v in 0 until whitespace) writer.write(" ")
-            writer.write(strlist[n].second)
-            writer.newLine()
-
-            for (v in 0 until whitespace) writer.write(" ")
-            for (v in 0 until strlist[n].second.length) writer.write("-")
-            writer.newLine()
+            for (v in 0 until strlist[n].first.length) writer.write("-")
         }
+        writer.newLine()
 
-        if (strlist[n].second != "-0") whitespace += strlist[n].first.length - 1
+        whitespace += strlist[n].second.length - strlist[n].first.length
+        if (strlist[n].first.startsWith("0")) whitespace += 1
     }
 
     //последние строчки
@@ -570,6 +568,100 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 }
 
 /**
+{
+    val writer = File(outputName).bufferedWriter()
+    val lhvstr = lhv.toString()
+    var lhvstr1 = ""
+    var whitespace = 0
+    val strlist = mutableListOf<Pair<String, String>>()
+
+    for (p in lhvstr.indices) { //Часть вычислений
+        lhvstr1 += lhvstr[p]
+
+        if (lhvstr1.toInt() / rhv == 1) { //Вариант, когда делимое равно делителю
+            strlist.add(Pair(lhvstr1, "-$rhv"))
+            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+            //Сохраняем в lhvstr1 остаток от разницы
+        }
+
+        else if (lhvstr1.toInt() / rhv > 1) { //Вариант, когда делимое больше делителя
+            strlist.add(Pair(lhvstr1, "-" + (lhvstr1.toInt() - lhvstr1.toInt() % rhv).toString()))
+            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+        }
+
+        else {
+            if (lhvstr.length < rhv.toString().length
+                || strlist.size >= 1
+                || (lhvstr1.length == rhv.toString().length && lhv < rhv)
+            ) {
+                strlist.add(Pair(lhvstr1, "-0"))
+                lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+            }
+        }
+    }
+
+    //оформление первых трех строк
+    if (strlist[0].first.length < strlist[0].second.length) writer.write(" $lhv | $rhv")
+    else writer.write("$lhv | $rhv")
+    writer.newLine()
+
+    writer.write(strlist[0].second)
+    for (v in 0 until (lhvstr.length - strlist[0].first.length)) writer.write(" ")
+    writer.write("   " + lhv / rhv)
+    writer.newLine()
+
+    for (v in 0 until strlist[0].second.length) writer.write("-")
+    writer.newLine()
+
+    whitespace += strlist[0].second.length - strlist[0].first.length
+
+    //оформление остальных строк
+    for (n in 1 until strlist.size) {
+        for (v in 0..whitespace) writer.write(" ")
+        writer.write(strlist[n].first)
+        writer.newLine()
+
+        if (strlist[n].first.length < strlist[n].second.length) {
+            for (v in 0 until whitespace) writer.write(" ")
+            if (strlist[n].second < strlist[n].first) {
+                for (v in 0 until strlist[n].first.length - strlist[n].second.length) writer.write(" ")
+                writer.write(strlist[n].second)
+            } else writer.write(strlist[n].second)
+            writer.newLine()
+
+            for (v in 0 until whitespace) writer.write(" ")
+            for (v in 0 until strlist[n].first.length) writer.write("-")
+            writer.newLine()
+        }
+        else {
+            for (v in 0..whitespace) writer.write(" ")
+            if (strlist[n].second < strlist[n].first) {
+                for (v in 0 until strlist[n].first.length - strlist[n].second.length) writer.write(" ")
+                writer.write(strlist[n].second)
+            } else writer.write(strlist[n].second)
+            writer.newLine()
+
+            for (v in 0..whitespace) writer.write(" ")
+            for (v in 0 until strlist[n].first.length) writer.write("-")
+            writer.newLine()
+        }
+
+        whitespace += strlist[n].second.length - 1
+    }
+
+    //последние строчки
+    val num = lhvstr.length - lhvstr1.length
+    if (strlist[0].first.length < strlist[0].second.length) {
+        for (v in 0..num) writer.write(" ")
+    }
+    else {
+        for (v in 0 until num) writer.write(" ")
+    }
+    writer.write(lhvstr1)
+
+    writer.close()
+}
+
 {
     val writer = File(outputName).bufferedWriter()
     var whitespace = 0
