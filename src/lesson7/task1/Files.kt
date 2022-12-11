@@ -521,18 +521,24 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     else writer.write("$lhv | $rhv")
     writer.newLine()
 
+    if (lhv < rhv) {
+        for (v in 0 until lhvstr.length - 2) writer.write(" ")
+    }
     writer.write(strlist[0].second)
     for (v in 0 until (lhvstr.length - strlist[0].first.length)) writer.write(" ")
     writer.write("   " + lhv / rhv)
     writer.newLine()
 
-    for (v in 0 until strlist[0].second.length) writer.write("-")
+    if (lhv < rhv) {
+        for (v in lhvstr.indices) writer.write("-")
+        if (strlist[0].first.length < strlist[0].second.length) writer.write("-")
+    }
+    else for (v in 0 until strlist[0].second.length) writer.write("-")
     writer.newLine()
 
     //оформление остальных строк
     whitespace += strlist[0].second.length - 1 - (strlist[0].first.toInt() + strlist[0].second.toInt()).toString().length
     for (n in 1 until strlist.size) {
-
         for (v in 0 until whitespace) writer.write(" ")
         writer.write(strlist[n].first)
         writer.newLine()
