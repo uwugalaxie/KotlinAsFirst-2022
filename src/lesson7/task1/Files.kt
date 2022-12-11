@@ -503,7 +503,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
 
         else {
-            if (lhvstr.length < rhv.toString().length) strlist.add(Pair(lhvstr1, "-0"))
+            if (lhvstr.length <= rhv.toString().length) strlist.add(Pair(lhvstr1, "-0"))
             else if (strlist.size >= 1) strlist.add(Pair(lhvstr1, "-0"))
         }
     }
@@ -525,7 +525,6 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
     //оформление остальных строк
     for (n in 1 until strlist.size) {
-
         for (v in 0 until whitespace) writer.write(" ")
         writer.write(strlist[n].first)
         writer.newLine()
