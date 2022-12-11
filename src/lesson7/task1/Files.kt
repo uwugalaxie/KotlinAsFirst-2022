@@ -562,7 +562,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) whitespace += 1
             } else if (strlist[n].first.startsWith("0")) whitespace += 1
 
-            if (strlist[n].first.length > strlist[n + 1].first.length) whitespace += strlist[n].first.length - strlist[n + 1].first.length
+            if (strlist[n].first.length > strlist[n + 1].first.length) whitespace += whitespace += 1
         } catch (e: IndexOutOfBoundsException) {
             break
         }
