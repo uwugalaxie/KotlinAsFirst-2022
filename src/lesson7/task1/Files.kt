@@ -557,8 +557,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         }
         writer.newLine()
 
-        whitespace += strlist[n].second.length - strlist[n].first.length
-        if (strlist[n].first.startsWith("0")) whitespace += 1
+        if (strlist[n].second != "-0") {
+            if (strlist[n].second.length >= strlist[n].first.length) whitespace += 1
+        }
     }
 
     //последние строчки
