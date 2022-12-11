@@ -505,7 +505,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         else {
             if (lhvstr.length < rhv.toString().length
                 || strlist.size >= 1
-                || (lhvstr.length == rhv.toString().length && lhvstr.length == 1)) strlist.add(Pair(lhvstr1, "-0"))
+                || (lhvstr.length == rhv.toString().length && lhvstr.length == 1)) {
+                strlist.add(Pair(lhvstr1, "-0"))
+                lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+            }
         }
     }
 
