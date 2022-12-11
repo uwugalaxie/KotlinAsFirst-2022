@@ -483,6 +483,90 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
+    val lhvstr = lhv.toString()
+    var lhvstr1 = ""
+    var whitespace = 0
+    val strlist = mutableListOf<Pair<String, String>>()
+
+    for (p in lhvstr.indices) { //Часть вычислений
+        lhvstr1 += lhvstr[p]
+
+        if (lhvstr1.toInt() / rhv == 1) { //Вариант, когда делимое равно делителю
+            strlist.add(Pair(lhvstr1, "-$rhv"))
+            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+            //Сохраняем в lhvstr1 остаток от разницы
+        }
+
+        else if (lhvstr1.toInt() / rhv > 1) { //Вариант, когда делимое больше делителя
+            strlist.add(Pair(lhvstr1, "-" + (lhvstr1.toInt() - lhvstr1.toInt() % rhv).toString()))
+            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+        }
+
+        else {
+            if (lhvstr.length < rhv.toString().length) strlist.add(Pair(lhvstr1, "-0"))
+            else if (strlist.size >= 1) strlist.add(Pair(lhvstr1, "-0"))
+        }
+    }
+
+    //оформление первых трех строк
+    if (strlist[0].first.length < strlist[0].second.length) writer.write(" $lhv | $rhv")
+    else writer.write("$lhv | $rhv")
+    writer.newLine()
+
+    writer.write(strlist[0].second)
+    for (v in 0 until (lhvstr.length - strlist[0].first.length)) writer.write(" ")
+    writer.write("   " + lhv / rhv)
+    writer.newLine()
+
+    for (v in 0 until strlist[0].second.length) writer.write("-")
+    writer.newLine()
+
+    whitespace += strlist[0].second.length - 1
+
+    //оформление остальных строк
+    for (n in 1 until strlist.size) {
+
+        for (v in 0 until whitespace) writer.write(" ")
+        writer.write(strlist[n].first)
+        writer.newLine()
+
+        if (strlist[n].first.length < strlist[n].second.length) {
+            for (v in 0 until whitespace - 1) writer.write(" ")
+            writer.write(strlist[n].second)
+            writer.newLine()
+
+            for (v in 0 until whitespace - 1) writer.write(" ")
+            for (v in 0 until strlist[n].second.length) writer.write("-")
+            writer.newLine()
+        }
+        else {
+            for (v in 0 until whitespace) writer.write(" ")
+            writer.write(strlist[n].second)
+            writer.newLine()
+
+            for (v in 0 until whitespace) writer.write(" ")
+            for (v in 0 until strlist[n].second.length) writer.write("-")
+            writer.newLine()
+        }
+
+        if (strlist[n].second != "-0") whitespace += strlist[n].second.length - 1
+    }
+
+    //последние строчки
+    if (strlist[0].first.length < strlist[0].second.length) {
+        for (v in lhvstr.indices) writer.write(" ")
+    }
+    else {
+        for (v in lhvstr.indices - 1) writer.write(" ")
+    }
+    writer.write(lhvstr1)
+
+    writer.close()
+}
+
+/**
+{
+    val writer = File(outputName).bufferedWriter()
     var whitespace = 0
 
     val lhvstr = lhv.toString()
@@ -553,4 +637,4 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     writer.write(lhvstr1)
     writer.close()
 }
-
+ */
