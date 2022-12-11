@@ -559,10 +559,10 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
         try {
             if (strlist[n].second != "-0") {
-                if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) whitespace += 1
+                if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) {
+                    whitespace += strlist[n].first.length - (strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length
+                }
             } else if (strlist[n].first.startsWith("0")) whitespace += 1
-
-            if (strlist[n].first.length > strlist[n + 1].first.length) whitespace += strlist[n].first.length - strlist[n + 1].first.length
         } catch (e: IndexOutOfBoundsException) {
             break
         }
