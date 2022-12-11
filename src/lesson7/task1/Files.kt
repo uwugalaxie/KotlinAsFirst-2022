@@ -505,7 +505,8 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         else {
             if (lhvstr.length < rhv.toString().length
                 || strlist.size >= 1
-                || (lhvstr.length == rhv.toString().length && lhvstr.length == 1)) {
+                || (lhvstr1.length == rhv.toString().length && lhv < rhv)
+            ) {
                 strlist.add(Pair(lhvstr1, "-0"))
                 lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
             }
@@ -556,11 +557,12 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     }
 
     //последние строчки
+    val num = lhvstr.length - lhvstr1.length
     if (strlist[0].first.length < strlist[0].second.length) {
-        for (v in lhvstr.indices) writer.write(" ")
+        for (v in 0..num) writer.write(" ")
     }
     else {
-        for (v in lhvstr.indices - 1) writer.write(" ")
+        for (v in 0 until num) writer.write(" ")
     }
     writer.write(lhvstr1)
 
