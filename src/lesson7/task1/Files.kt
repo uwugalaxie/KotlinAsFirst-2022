@@ -530,8 +530,9 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     writer.newLine()
 
     //оформление остальных строк
-    whitespace += strlist[0].second.length - 1 - lhvstr1.length
+    whitespace += strlist[0].second.length - 1 - (strlist[0].first.toInt() + strlist[0].second.toInt()).toString().length
     for (n in 1 until strlist.size) {
+
         for (v in 0 until whitespace) writer.write(" ")
         writer.write(strlist[n].first)
         writer.newLine()

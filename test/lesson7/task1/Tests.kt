@@ -387,6 +387,21 @@ Basic, Ruby, Swift.
             assertFileContent("temp.txt", res.trimIndent())
             File("temp.txt").delete()
         }
+
+        test(
+            217863,
+            21472,
+            """
+               217863 | 21472
+              -21472    10
+              ------
+                 3143
+                   -0
+                 ----
+                 3143
+             """
+        )
+
         test(
             19935,
             22,
@@ -433,9 +448,9 @@ Basic, Ruby, Swift.
                777233 | 77384
               -77384    10
               ------
-                3393
-                  -0
-                ----
+                 3393
+                   -0
+                 ----
                  3393
              """
         )
