@@ -515,98 +515,119 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var whitespace = 0
     val strlist = mutableListOf<Pair<String, String>>()
 
-    for (p in lhvstr.indices) { //Часть вычислений
-        lhvstr1 += lhvstr[p]
+    if (lhv >= rhv) {
+        for (p in lhvstr.indices) { //Часть вычислений
+            lhvstr1 += lhvstr[p]
 
-        if (lhvstr1.toInt() / rhv == 1) { //Вариант, когда делимое равно делителю
-            strlist.add(Pair(lhvstr1, "-$rhv"))
-            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
-            //Сохраняем в lhvstr1 остаток от разницы
-        }
+            if (lhvstr1.toInt() / rhv == 1) { //Вариант, когда делимое равно делителю
+                strlist.add(Pair(lhvstr1, "-$rhv"))
+                lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+                //Сохраняем в lhvstr1 остаток от разницы
+            }
 
-        else if (lhvstr1.toInt() / rhv > 1) { //Вариант, когда делимое больше делителя
-            strlist.add(Pair(lhvstr1, "-" + (lhvstr1.toInt() - lhvstr1.toInt() % rhv).toString()))
-            lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
-        }
-
-        else {
-            if (lhvstr.length < rhv.toString().length
-                || strlist.size >= 1
-                || (lhvstr1.length == rhv.toString().length && lhv < rhv)
-            ) {
-                strlist.add(Pair(lhvstr1, "-0"))
+            else if (lhvstr1.toInt() / rhv > 1) { //Вариант, когда делимое больше делителя
+                strlist.add(Pair(lhvstr1, "-" + (lhvstr1.toInt() - lhvstr1.toInt() % rhv).toString()))
                 lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
             }
+
+            else {
+                if (lhvstr.length < rhv.toString().length
+                    || strlist.size >= 1
+                    || (lhvstr1.length == rhv.toString().length && lhv < rhv)
+                ) {
+                    strlist.add(Pair(lhvstr1, "-0"))
+                    lhvstr1 = (lhvstr1.toInt() - (lhvstr1.toInt() - (lhvstr1.toInt() % rhv))).toString()
+                }
+            }
         }
-    }
 
-    //оформление первых трех строк
-    if (strlist[0].first.length < strlist[0].second.length) {
-        writer.write(" $lhv | $rhv")
-        whitespace += 1
-    }
-    else writer.write("$lhv | $rhv")
-    writer.newLine()
-
-    if (lhv < rhv) {
-        for (v in 0 until lhvstr.length - 2) writer.write(" ")
-    }
-    writer.write(strlist[0].second)
-    for (v in 0 until (lhvstr.length - strlist[0].first.length)) writer.write(" ")
-    writer.write("   " + lhv / rhv)
-    writer.newLine()
-
-    if (lhv < rhv) {
-        for (v in lhvstr.indices) writer.write("-")
-        if (strlist[0].first.length < strlist[0].second.length) writer.write("-")
-    }
-    else for (v in 0 until strlist[0].second.length) writer.write("-")
-    writer.newLine()
-
-    //оформление остальных строк
-    whitespace += strlist[0].second.length - 1 - (strlist[0].first.toInt() + strlist[0].second.toInt()).toString().length
-    for (n in 1 until strlist.size) {
-        for (v in 0 until whitespace) writer.write(" ")
-        writer.write(strlist[n].first)
+        //оформление первых трех строк
+        if (strlist[0].first.length < strlist[0].second.length) {
+            writer.write(" $lhv | $rhv")
+            whitespace += 1
+        }
+        else writer.write("$lhv | $rhv")
         writer.newLine()
 
-        for (v in 0 until whitespace - (strlist[n].second.length - strlist[n].first.length)) writer.write(" ")
-        writer.write(strlist[n].second)
+        writer.write(strlist[0].second)
+        for (v in 0 until (lhvstr.length - strlist[0].first.length)) writer.write(" ")
+        writer.write("   " + lhv / rhv)
         writer.newLine()
 
-        if (strlist[n].second.length > strlist[n].first.length) {
+        if (lhv < rhv) {
+            for (v in lhvstr.indices) writer.write("-")
+            if (strlist[0].first.length < strlist[0].second.length) writer.write("-")
+        }
+        else for (v in 0 until strlist[0].second.length) writer.write("-")
+        writer.newLine()
+
+        //оформление остальных строк
+        whitespace += strlist[0].second.length - 1 - (strlist[0].first.toInt() + strlist[0].second.toInt()).toString().length
+        for (n in 1 until strlist.size) {
+            for (v in 0 until whitespace) writer.write(" ")
+            writer.write(strlist[n].first)
+            writer.newLine()
+
             for (v in 0 until whitespace - (strlist[n].second.length - strlist[n].first.length)) writer.write(" ")
-            for (v in 0 until strlist[n].second.length) writer.write("-")
+            writer.write(strlist[n].second)
+            writer.newLine()
+
+            if (strlist[n].second.length > strlist[n].first.length) {
+                for (v in 0 until whitespace - (strlist[n].second.length - strlist[n].first.length)) writer.write(" ")
+                for (v in 0 until strlist[n].second.length) writer.write("-")
+            }
+            else {
+                for (v in 0 until whitespace) writer.write(" ")
+                for (v in 0 until strlist[n].first.length) writer.write("-")
+            }
+            writer.newLine()
+
+            try {
+                if (strlist[n].second != "-0") {
+                    if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) {
+                        whitespace += strlist[n].first.length - (strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length
+                    }
+                } else if (strlist[n].first.startsWith("0")) whitespace += 1
+            } catch (e: IndexOutOfBoundsException) {
+                break
+            }
+
+        }
+
+        //последние строчки
+        val num = lhvstr.length - lhvstr1.length
+        if (strlist[0].first.length < strlist[0].second.length) {
+            for (v in 0..num) writer.write(" ")
         }
         else {
-            for (v in 0 until whitespace) writer.write(" ")
-            for (v in 0 until strlist[n].first.length) writer.write("-")
+            for (v in 0 until num) writer.write(" ")
+        }
+        writer.write(lhvstr1)
+
+        writer.close()
+    }
+
+    else { //Исключение
+        if (lhvstr.length > 1) writer.write("$lhv | $rhv")
+        else {
+            writer.write(" $lhv | $rhv")
+            whitespace += 1
         }
         writer.newLine()
 
-        try {
-            if (strlist[n].second != "-0") {
-                if ((strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length < strlist[n + 1].first.length) {
-                    whitespace += strlist[n].first.length - (strlist[n].first.toInt() + strlist[n].second.toInt()).toString().length
-                }
-            } else if (strlist[n].first.startsWith("0")) whitespace += 1
-        } catch (e: IndexOutOfBoundsException) {
-            break
-        }
+        for (v in 0 until lhvstr.length - 2) writer.write(" ")
+        writer.write("-0   0")
+        writer.newLine()
 
-    }
+        if (lhvstr.length > 2) for (v in lhvstr.indices) writer.write("-")
+        else writer.write("--")
+        writer.newLine()
 
-    //последние строчки
-    val num = lhvstr.length - lhvstr1.length
-    if (strlist[0].first.length < strlist[0].second.length) {
-        for (v in 0..num) writer.write(" ")
-    }
-    else {
-        for (v in 0 until num) writer.write(" ")
-    }
-    writer.write(lhvstr1)
+        for (v in 0 until whitespace) writer.write(" ")
+        writer.write(lhvstr)
 
-    writer.close()
+        writer.close()
+    }
 }
 
 /**
