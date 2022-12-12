@@ -545,11 +545,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
         writer.write("   " + lhv / rhv)
         writer.newLine()
 
-        if (lhv < rhv) {
-            for (v in lhvstr.indices) writer.write("-")
-            if (strlist[0].first.length < strlist[0].second.length) writer.write("-")
-        }
-        else for (v in 0 until strlist[0].second.length) writer.write("-")
+        for (v in 0 until strlist[0].second.length) writer.write("-")
         writer.newLine()
 
         //оформление остальных строк
