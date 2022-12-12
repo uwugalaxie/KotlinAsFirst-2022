@@ -217,7 +217,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     val sortedList = list.sortedByDescending { it.second }
     val list1 = mutableListOf<Pair<String, Int>>()
     for (n in sortedList.indices) {
-        if (n < 21) {
+        if (n < 20) {
             list1.add(sortedList[n])
         } else {
             if (sortedList[n].second == sortedList[n - 1].second) list1.add(sortedList[n])
